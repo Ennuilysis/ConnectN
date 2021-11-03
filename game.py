@@ -4,7 +4,7 @@ from typing import List, Tuple
 
 
 class Game(object):
-    def __init__(self, board_array: Board, pieces_to_win: int):
+    def __init__(self, board_array: Board):
         self.board_array = board_array
         self.players: List[Tuple[str, str]] = []
         self.Player_instants: List[Player] = []
