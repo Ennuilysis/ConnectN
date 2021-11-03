@@ -1,7 +1,7 @@
 from typing import List    
 
 class Board(object):
-    def __init__(self, num_rows: int, num_columns: int, blank_character: str):
+    def __init__(self, num_rows: int, num_columns: int, blank_character: str, pieces_to_win: int):
         self.num_rows = num_rows
         self.num_columns = num_columns
         self.blank_character = blank_character
