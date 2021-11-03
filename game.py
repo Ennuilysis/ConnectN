@@ -6,7 +6,7 @@ from typing import List, Tuple
 class Game(object):
     def __init__(self, board_array: Board, pieces_to_win: int):
         self.board_array = board_array
-        self.players: List[Tuple(str, str)] = []
+        self.players: List[Tuple[str, str]] = []
         self.Player_instants: List[Player] = []
         self.board: Board = board
         self.pieces_to_win: int = pieces_to_win
@@ -18,6 +18,7 @@ class Game(object):
         player_piece = self.check_player_piece(player_num)
         self.players.append((player_name, player_piece))
         globals()[player_name] = Board(player_name, player_piece, self.player_num)
+        self.Player_instants.append(globals()[player_name])
 
     def create_board(self, file):
 
@@ -47,4 +48,3 @@ class Game(object):
             elif piece in x:
                 pos = x.index(piece)
                 print(f'You cannot use {piece} for your piece as {self.players[pos][0]} is already using it.')
-
