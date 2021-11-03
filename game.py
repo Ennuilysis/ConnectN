@@ -43,6 +43,7 @@ class Game(object):
                 continue
             elif len(piece) > 1:
                 print(f'{piece} is not a single character. Your piece can only be a single character.')
+                continue
             elif piece == self.board.blank_character:
                 print('Your piece cannot be the same as the blank character.')
                 continue
