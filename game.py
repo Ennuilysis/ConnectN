@@ -45,6 +45,9 @@ class Game(object):
                 print(f'{piece} is not a single character. Your piece can only be a single character.')
             elif piece == self.board.blank_character:
                 print('Your piece cannot be the same as the blank character.')
+                continue
             elif piece in x:
                 pos = x.index(piece)
                 print(f'You cannot use {piece} for your piece as {self.players[pos][0]} is already using it.')
+                continue
+            return piece
