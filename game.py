@@ -26,6 +26,7 @@ class Game(object):
         x = [t[0] for t in self.players]
         while True:
             player_name = input(f"Player {player_num} enter your name")
+            player_name = player_name.lower()
             if len(player_name) == 0 or player_name == " ":
                 print("Your name cannot be the empty string or whitespace")
                 continue
