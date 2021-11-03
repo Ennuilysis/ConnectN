@@ -35,6 +35,11 @@ class Board(object):
 
     def fill_spot(self, row: int, column: int, character: str):
         self.contents[row][column] = character
+        
+       @staticmethod
+    def build_board_from_config(game_config) -> "Board":
+        return Board(game_config.num_rows, game_config.num_columns, game_config.blank_character,
+                     game_config.num_pieces_to_win)
 
     
     ...
