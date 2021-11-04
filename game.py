@@ -12,14 +12,14 @@ class Game(object):
         self.pieces_to_win: int = pieces_to_win
         self.player_num = 0
 
-    def create_player(self, player_num):
+    def create_player(self):
         self.player_num += 1
-        player_name = self.check_player_name(player_num)
-        player_piece = self.check_player_piece(player_num)
+        player_name = self.check_player_name(self.player_num)
+        player_piece = self.check_player_piece(self.player_num)
         self.players.append((player_name, player_piece))
-        globals()[player_name] = Player(player_name, player_piece, self.player_num)
+        globals()[player_name] = Board(player_name, player_piece, self.player_num)
         self.Player_instants.append(globals()[player_name])
-
+        
     def check_player_name(self, player_num):
         x = [t[0] for t in self.players]
         while True:
