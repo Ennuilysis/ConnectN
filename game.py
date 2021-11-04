@@ -5,10 +5,10 @@ from typing import List, Tuple
 
 class Game(object):
     def __init__(self, board_array: Board):
-        self.board_array = board_array
+        
         self.players: List[Tuple[str, str]] = []
         self.Player_instants: List[Player] = []
-        self.board: Board = board
+        self.board: Board = Board.build_board_from_config()
         self.pieces_to_win: int = pieces_to_win
         self.player_num = 0
 
@@ -19,8 +19,6 @@ class Game(object):
         self.players.append((player_name, player_piece))
         globals()[player_name] = Player(player_name, player_piece, self.player_num)
         self.Player_instants.append(globals()[player_name])
-
-    def create_board(self, file):
 
     def check_player_name(self, player_num):
         x = [t[0] for t in self.players]
@@ -53,3 +51,24 @@ class Game(object):
                 print(f'You cannot use {piece} for your piece as {self.players[pos][0]} is already using it.')
                 continue
             return piece
+
+        
+    def win_check(self, piece):
+        board_list=self.board
+        longest_vect=0
+        def check_next(col, row, col_chng, row_chng):
+            next_chr = board_list[col + col_chng][row + row_chng]
+            if next_chr == piece:
+                return 1 + check_next(col, row, col_chng, row_chng)
+            else:
+                return 0
+        for col in range(self.board.num_columns):
+            for row in range(self.board.num_rows):
+                if piece == self.board.contents[col][row]:
+                    up_vect = check_next(col, row, 0, 1)
+                    tor_right_vect = check_next(col, row, 1, 1)
+                    right_vect = check_next(col, row, 1, 0)
+                    bottom_right_vect = check_next(col, row, 0, 1)
+                    longest_vect=max(up_vect,tor_right_vect,right_vect,bottom_right_vect,longest_vect)
+        if longest_vect>=self.pieces_to_win:
+            return False
