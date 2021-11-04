@@ -10,14 +10,17 @@ empty_player = Player("", "piece", 1)
 
 def main() -> None:
     global game_master
-    game_master.create_player()
-    game_master.create_player()
-    playing = True
-    while playing:
-        for x in game_master.Player_instants:
-            play_col = int(input(f"{x.name} please enter the column you want to play in: "))
-            game_master.board.fill_spot(play_col, x.piece)
-            playing=game_master.win_check(x.piece)
+    while True:
+        game_master.create_player()
+        game_master.create_player()
+        playing = True
+        while playing:
+            for x in game_master.Player_instants:
+                play_col = int(input(f"{x.name} please enter the column you want to play in: "))
+                game_master.board.fill_spot(play_col, x.piece)
+                playing=game_master.win_check(x.piece)
+                winner=x.name
+        print(f"{winner} won the game!")
 
 
 if __name__ == '__main__':
