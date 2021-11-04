@@ -1,15 +1,14 @@
 from ConnectNGame.src.board import Board
 from ConnectNGame.src.player import Player
+from ConnectNGame.src.config import Config
 from typing import List, Tuple
 
 
-class Game(object):
-    def __init__(self, board_array: Board):
-        
+class Game(Config):
+    def __init__(self, pieces_to_win: int):
         self.players: List[Tuple[str, str]] = []
         self.Player_instants: List[Player] = []
         self.board: Board = Board.build_board_from_config()
-        self.pieces_to_win: int = pieces_to_win
         self.player_num = 0
 
     def create_player(self):
@@ -19,12 +18,11 @@ class Game(object):
         self.players.append((player_name, player_piece))
         globals()[player_name] = Board(player_name, player_piece, self.player_num)
         self.Player_instants.append(globals()[player_name])
-        
+
     def check_player_name(self, player_num):
         x = [t[0] for t in self.players]
         while True:
             player_name = input(f"Player {player_num} enter your name")
-            player_name = player_name.lower()
             if len(player_name) == 0 or player_name == " ":
                 print("Your name cannot be the empty string or whitespace")
                 continue
@@ -42,8 +40,7 @@ class Game(object):
                 continue
             elif len(piece) > 1:
                 print(f'{piece} is not a single character. Your piece can only be a single character.')
-                continue
-            elif piece == self.board_array.blank_character:
+            elif piece == self.board.blank_character:
                 print('Your piece cannot be the same as the blank character.')
                 continue
             elif piece in x:
@@ -52,7 +49,6 @@ class Game(object):
                 continue
             return piece
 
-        
     def win_check(self, piece):
         board_list=self.board
         longest_vect=0
@@ -70,5 +66,5 @@ class Game(object):
                     right_vect = check_next(col, row, 1, 0)
                     bottom_right_vect = check_next(col, row, 0, 1)
                     longest_vect=max(up_vect,tor_right_vect,right_vect,bottom_right_vect,longest_vect)
-        if longest_vect>=self.pieces_to_win:
+        if longest_vect>=self.num_pieces_to_win:
             return False
