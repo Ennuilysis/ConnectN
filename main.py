@@ -1,16 +1,33 @@
 from ConnectNGame.src.game import Game
 from ConnectNGame.src.board import Board
 from ConnectNGame.src.player import Player
+
+
+
+
+
+from ConnectNGame.src.game import Game
+from ConnectNGame.src.board import Board
+from ConnectNGame.src.player import Player
+
+game_master = Game()
+game_board = game_master.board
+empty_player = Player("", "piece", 1)
+
+
+#####IGNORE ABOVE#######
+
 def main() -> None:
-    game_master=Game()
+    global game_master
     game_master.create_player()
     game_master.create_player()
-    playing=True
+    playing = True
     while playing:
         for x in game_master.Player_instants:
-
-
-    ...  # program execution begins here
+            print_board()
+            play_col = int(input(f"{x.name} please enter the column you want to play in: "))
+            game_master.board.fill_spot(play_col, x.piece)
+            playing=game_master.win_check(x.piece)
 
 
 if __name__ == '__main__':
