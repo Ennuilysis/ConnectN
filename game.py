@@ -4,11 +4,11 @@ from ConnectNGame.src.config import Config
 from typing import List, Tuple
 
 
-class Game(Config):
-    def __init__(self, pieces_to_win: int):
+class Game(object):
+    def __init__(self, game_config: Config):
         self.players: List[Tuple[str, str]] = []
         self.Player_instants: List[Player] = []
-        self.board: Board = Board.build_board_from_config()
+        self.board: Board = Board.build_board_from_config(game_config)
         self.player_num = 0
 
     def create_player(self):
@@ -23,6 +23,7 @@ class Game(Config):
         x = [t[0] for t in self.players]
         while True:
             player_name = input(f"Player {player_num} enter your name")
+            player_name = player_name.lower()
             if len(player_name) == 0 or player_name == " ":
                 print("Your name cannot be the empty string or whitespace")
                 continue
@@ -48,6 +49,11 @@ class Game(Config):
                 print(f'You cannot use {piece} for your piece as {self.players[pos][0]} is already using it.')
                 continue
             return piece
+    
+    def play(self):
+        self.create_player()
+        self.create_player()
+        print(self.board)
 
     def win_check(self, piece):
         board_list=self.board
