@@ -21,6 +21,10 @@ def main() -> None:
                 playing=game_master.win_check(x.piece)
                 winner=x.name
         print(f"{winner} won the game!")
+        
+        game_config = Config(sys.argv[1])
+        connect_n = Game(game_config)
+        Game.play(connect_n)
 
 
 if __name__ == '__main__':
