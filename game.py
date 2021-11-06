@@ -24,7 +24,6 @@ class Game(object):
     def check_player_name(self, player_num):
         x = [t[0] for t in self.players]
         x = [t.lower() for t in x]
-        print(x)
 
         while True:
             player_name = input(f"Player {player_num} enter your name: ")
@@ -57,45 +56,58 @@ class Game(object):
             return piece
 
     def play(self):
-        self.create_player()
-        self.create_player()
-        print(self.board)
-
         while True:
-            for x in self.Player_instants:
-                play_col = int(input(f"{x.name} please enter the column you want to play in: "))
-                self.board.drop_piece_into_column(play_col, x.piece)
-                print(self.board)
-            # game_master.board.fill_spot(play_col, x.piece)
-#             playing = game_master.win_check(x.piece)
-#             winner = x.name
-#     print(f"{winner} won the game!")
-#
+            self.create_player()
+            self.create_player()
+            print(self.board)
+
+            while True:
+                for x in self.Player_instants:
+                    play_col = int(input(f"{x.name} please enter the column you want to play in: "))
+                    self.board.drop_piece_into_column(play_col, x.piece)
+                    print(self.board)
+                    win = self.win_check(x.piece)
+                    if win:
+                        print(f"{x.name} won the game!")
+                        exit()
+
+
 
 
 
 
     def win_check(self, piece):
-        board_list = self.board
+        board_list = self.board.contents
         longest_vect = 0
 
-        def check_next(col, row, col_chng, row_chng):
-            next_chr = board_list[col + col_chng][row + row_chng]
+        def check_next(row, col, row_chng, col_chng):
+            try:
+                next_chr = board_list[row+row_chng][col+col_chng]
+            except IndexError:
+
+                return 0
+
+
             if next_chr == piece:
-                return 1 + check_next(col, row, col_chng, row_chng)
+                return 1 + check_next(row + row_chng, col + col_chng, row_chng, col_chng)
             else:
                 return 0
 
         for col in range(self.board.num_columns):
             for row in range(self.board.num_rows):
-                if piece == self.board.contents[col][row]:
-                    up_vect = check_next(col, row, 0, 1)
-                    tor_right_vect = check_next(col, row, 1, 1)
-                    right_vect = check_next(col, row, 1, 0)
-                    bottom_right_vect = check_next(col, row, 0, 1)
+                if piece == self.board.contents[row][col]:
+                    up_vect = check_next(row, col, 1, 0)
+                    tor_right_vect = check_next(row, col, 1, 1)
+                    right_vect = check_next(row, col, 0, 1)
+                    bottom_right_vect = check_next(row, col, 1, -1)
                     longest_vect = max(up_vect, tor_right_vect, right_vect, bottom_right_vect, longest_vect)
-        if longest_vect >= self.board.pieces_to_win:
-            return False
+        if longest_vect >= self.board.pieces_to_win - 1:
+            return True
+
+
+
+
+
 
 
 
